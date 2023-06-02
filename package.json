@@ -1,0 +1,43 @@
+{
+  "name": "csv_uploader_back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "build": "tsc",
+    "dev": "ts-node-dev ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rottschaefer/csv_uploader_back-end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rottschaefer/csv_uploader_back-end/issues"
+  },
+  "homepage": "https://github.com/Rottschaefer/csv_uploader_back-end#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/knex": "^0.16.1",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^20.2.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "csv": "^6.3.1",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.1.3",
+    "express": "^4.18.2",
+    "fast-csv": "^4.3.6",
+    "knex": "^2.4.2",
+    "multer": "^1.4.5-lts.1",
+    "sqlite3": "^5.1.6",
+    "zod": "^3.21.4"
+  }
+}
