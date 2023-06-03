@@ -2,7 +2,7 @@ import { CSVBusiness } from "../business/CSVBusiness";
 import { Request, Response } from "express"
 import { BadRequestError } from "../errors/BadRequestError";
 import { BaseError } from "../errors/BaseError";
-import { GetInfoSchema } from "../dto/getInfoDTO";
+import { GetInfoDTOInput, GetInfoSchema } from "../dto/getInfoDTO";
 
 
 export class CSVController {
@@ -12,16 +12,8 @@ export class CSVController {
 
     public insertCSV = async (req: Request, res: Response) => {
         try {
-            const file: Express.Multer.File | undefined = req.file
-
-            if (file === undefined) {
-                throw new BadRequestError("No file was sent")
-            }
-
-            if (file.mimetype !== "text/csv") {
-                throw new BadRequestError("Only CSV files are accepted")
-            }
-
+            const file = req.file as Express.Multer.File 
+            console.log(file)         
             this.csvBusiness.insertCSV(file)
             res.send("CSV file successfully submitted")
         }
@@ -38,7 +30,14 @@ export class CSVController {
 
         try {
 
-            const input = GetInfoSchema.parse(req.query.q)
+            let input: GetInfoDTOInput
+
+            if(req.query.q){
+            input = GetInfoSchema.parse(req.query.q)
+            }
+            else{
+            input = ""
+            }
 
             const info = await this.csvBusiness.getInfo(input)
 
