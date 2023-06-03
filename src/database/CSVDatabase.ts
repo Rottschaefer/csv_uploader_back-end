@@ -14,10 +14,15 @@ export class CSVDatabase extends BaseDatabase {
 
     public getInfo =async (input: GetInfoDTOInput) => {
 
-        console.log(input)
-        const info = await BaseDatabase.connection(CSVDatabase.TABLE_CSV_FILES).whereLike("name", `%${input}%`).orWhereLike("city", `%${input}%`).orWhereLike("country", `%${input}%`).orWhereLike("favorite_sport", `%${input}%`)
+        let info
 
-        console.log(info)
+        if(input){
+
+        info = await BaseDatabase.connection(CSVDatabase.TABLE_CSV_FILES).whereLike("name", `%${input}%`).orWhereLike("city", `%${input}%`).orWhereLike("country", `%${input}%`).orWhereLike("favorite_sport", `%${input}%`)
+        }
+        else{
+            info = await BaseDatabase.connection(CSVDatabase.TABLE_CSV_FILES)
+        }
         
         return info
     }
