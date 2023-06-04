@@ -14,14 +14,15 @@ export class CSVBusiness {
 
     public insertCSV = async (file: Express.Multer.File) => {
 
+        if (file === undefined) {
+            throw new BadRequestError("No file was sent")
+        }
+
 
         const filePath = file.path;
         const results: InsertCSVOutput[] = [];
 
 
-        if (file === undefined) {
-            throw new BadRequestError("No file was sent")
-        }
 
         if (!file.originalname.includes("csv")) {
             fs.unlink(filePath, (error) => {
@@ -43,21 +44,59 @@ export class CSVBusiness {
                 })
                 .on('error', (error) => {
                     reject(error);
-                    console.log(error)
                 });
         });
+
+        if (results.length === 0) {
+            fs.unlink(filePath, (error) => {
+                if (error) {
+                    throw new Error(`An error occurred while uploading the file: ${error}`);
+                }
+            });
+            throw new BadRequestError("The uploaded file is empty")
+        }
+
+
+        for (let i = 0; i < results.length; i++) {
+
+            if(Object.keys(results[i]).length !== 4){
+                fs.unlink(filePath, (error) => {
+                    if (error) {
+                        throw new Error(`An error occurred while uploading the file: ${error}`);
+                    }
+                });
+                throw new BadRequestError("The uploaded file does not follow the model")
+            }
+
+            if (
+                !results[i].name ||
+                !results[i].city ||
+                !results[i].country ||
+                !results[i].favorite_sport
+            ) {
+                fs.unlink(filePath, (error) => {
+                    if (error) {
+                        throw new Error(`An error occurred while uploading the file: ${error}`);
+                    }
+                });
+                throw new BadRequestError("The uploaded file does not follow the model")
+            }
+        }
+
+
+
 
 
         await this.csvDatabase.insertCSV(results)
 
 
-        if(!file.originalname.includes("csvMock")){
-        fs.unlink(filePath, (error) => {
-            if (error) {
-                throw new Error(`An error occurred while uploading the file: ${error}`);
-            }
-        });
-    }
+        if (!file.originalname.includes("csvMock")) {
+            fs.unlink(filePath, (error) => {
+                if (error) {
+                    throw new Error(`An error occurred while uploading the file: ${error}`);
+                }
+            });
+        }
 
     }
 
