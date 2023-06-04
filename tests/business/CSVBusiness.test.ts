@@ -22,8 +22,6 @@ describe("Testing insertCSV", () => {
 
         const info = await csvBusiness.getInfo(input)
 
-        console.log(info)
-
         expect(info).toHaveLength(5)
     })
 

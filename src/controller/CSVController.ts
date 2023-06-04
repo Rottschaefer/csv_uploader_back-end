@@ -12,12 +12,14 @@ export class CSVController {
 
     public insertCSV = async (req: Request, res: Response) => {
         try {
-            const file = req.file as Express.Multer.File 
-            console.log(file)         
-            this.csvBusiness.insertCSV(file)
+            const file = req.file as Express.Multer.File
+
+            await this.csvBusiness.insertCSV(file)
+
             res.send("CSV file successfully submitted")
         }
         catch (error) {
+
             if (error instanceof BaseError) {
                 res.status(error.statusCode).send(error.message)
             } else {
@@ -32,11 +34,11 @@ export class CSVController {
 
             let input: GetInfoDTOInput
 
-            if(req.query.q){
-            input = GetInfoSchema.parse(req.query.q)
+            if (req.query.q) {
+                input = GetInfoSchema.parse(req.query.q)
             }
-            else{
-            input = ""
+            else {
+                input = ""
             }
 
             const info = await this.csvBusiness.getInfo(input)
