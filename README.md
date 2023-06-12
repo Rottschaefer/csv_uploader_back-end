@@ -12,7 +12,7 @@
 In this repository you find the back-end for an .csv uploader application. In the application you are able to upload a .csv file that will be rendered as cards in the website.
 The file must contain the following properties: name, city, coutry and favorite_sport.
 
-You find the back-end of this project on this link: https://github.com/Rottschaefer/csv_uploader_front-end
+You find the front-end of this project on this link: https://github.com/Rottschaefer/csv_uploader_front-end
 
 
 ##  👩🏾Who does
